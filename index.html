@@ -119,8 +119,6 @@ h1 .typed-line{display:block;min-height:1.05em}
 .slide.contain{object-fit:contain;transform:none;background:#09090a}
 .slide.contain.on{transform:none}
 .show-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(5,5,5,.85));pointer-events:none;z-index:1}
-.show-badge{position:absolute;left:14px;bottom:14px;right:14px;z-index:2;display:inline-flex;align-items:center;gap:8px;width:max-content;max-width:calc(100% - 28px);padding:8px 14px;border-radius:999px;background:rgba(5,5,5,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid var(--line-2);font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.show-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red);flex:none}
 
 /* workflow card */
 .flow{border:1px dashed rgba(255,255,255,.17);border-radius:28px;padding:24px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));animation:fadeUp 1s .3s var(--ease) backwards}
@@ -428,11 +426,10 @@ footer{padding:36px 0 48px;color:var(--dim);font-size:14px}
     </div>
 
     <aside class="showcase" aria-label="Photos from my activities and project screenshots">
-      <div class="show-head"><h3>Moments and work</h3><span class="live"><span class="dot"></span>Random mix</span></div>
+      <div class="show-head"><h3>Moments and work</h3></div>
       <button class="show-frame" id="showBtn" type="button" aria-label="View this image full size">
         <img class="slide on" id="slideA" alt="">
         <img class="slide" id="slideB" alt="">
-        <span class="show-badge" id="showBadge">Loading</span>
       </button>
     </aside>
   </div>
@@ -576,35 +573,6 @@ footer{padding:36px 0 48px;color:var(--dim);font-size:14px}
   </div>
 </section>
 
-<section id="research" class="section">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Research</span>
-      <h2>Applied machine learning, tested against baselines</h2>
-      <p>Research assistant work, an undergraduate thesis and four publications.</p>
-    </div>
-    <div class="two">
-      <article class="card research-left reveal">
-        <h3>University of South Australia</h3>
-        <p>Undergraduate Research Assistant, Mar 2025 - Jan 2026</p>
-        <ul class="ticks">
-          <li><svg class="i"><use href="#i-check"/></svg><span>Deep learning pipelines for image classification and cybersecurity threat detection.</span></li>
-          <li><svg class="i"><use href="#i-check"/></svg><span>Semi-supervised ensembles reaching 97 percent accuracy on bone fracture detection.</span></li>
-          <li><svg class="i"><use href="#i-check"/></svg><span>Benchmarks and ablation studies against published baselines.</span></li>
-        </ul>
-        <div class="stack"><div class="tags"><span class="tag">ResNet50</span><span class="tag">DenseNet121</span><span class="tag">EfficientNetB0</span><span class="tag">Semi-supervised learning</span><span class="tag">Ablation studies</span></div></div>
-      </article>
-      <article class="card list-card reveal" style="--d:.08s">
-        <h3><svg class="i"><use href="#i-file"/></svg>Publications</h3>
-        <div class="row"><span class="ico"><svg class="i"><use href="#i-file"/></svg></span><div><strong>Experimental Evaluation and Machine Learning Based Feature Importance Analysis for Optimizing Renewable Energy System</strong></div></div>
-        <div class="row"><span class="ico"><svg class="i"><use href="#i-file"/></svg></span><div><strong>A Transfer Learning Driven Multi Model Framework for Image Based Classification of Bangladeshi Fish Species</strong></div></div>
-        <div class="row"><span class="ico"><svg class="i"><use href="#i-file"/></svg></span><div><strong>A Hybrid Deep Learning Framework for Image Based Classification of Bangladeshi Fish Species</strong></div></div>
-        <div class="row"><span class="ico"><svg class="i"><use href="#i-file"/></svg></span><div><strong>Semi-supervised Framework for Simple and Comminuted Fracture Recognition in X-Rays</strong></div></div>
-      </article>
-    </div>
-  </div>
-</section>
-
 <section id="skills" class="section">
   <div class="wrap">
     <div class="sec-head reveal">
@@ -617,35 +585,6 @@ footer{padding:36px 0 48px;color:var(--dim);font-size:14px}
   </div>
 </section>
 
-<section id="education" class="section">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Education</span>
-      <h2>Academic background</h2>
-    </div>
-    <div class="edu-grid">
-      <article class="card edu reveal">
-        <span class="date" style="align-self:flex-start">Oct 2022 - May 2026</span>
-        <div class="gpa grad">3.43 <small>/ 4.00 CGPA</small></div>
-        <h3>B.Sc. in Computer Science and Engineering</h3>
-        <p>East West University, Dhaka</p>
-        <div class="thesis"><strong>Thesis:</strong> A Transfer Learning Based Deep Learning Framework for Image Based Classification of Bangladeshi Fish Species</div>
-      </article>
-      <article class="card edu reveal" style="--d:.08s">
-        <span class="date" style="align-self:flex-start">Aug 2020</span>
-        <div class="gpa grad">5.00 <small>/ 5.00 GPA</small></div>
-        <h3>Higher Secondary Certificate</h3>
-        <p>Major General Mahmudul Hasan Ideal College, Tangail</p>
-      </article>
-      <article class="card edu reveal" style="--d:.16s">
-        <span class="date" style="align-self:flex-start">Feb 2018</span>
-        <div class="gpa grad">5.00 <small>/ 5.00 GPA</small></div>
-        <h3>Secondary School Certificate</h3>
-        <p>Bindu Basini Govt. Boys' High School, Tangail</p>
-      </article>
-    </div>
-  </div>
-</section>
 <section id="leadership" class="section">
   <div class="wrap">
     <div class="sec-head reveal">
@@ -852,7 +791,7 @@ lb.addEventListener('touchend', (e) => {
 
 /* ---------- hero showcase: random mix of activity photos and project screenshots ---------- */
 (function () {
-  const frame = $('#showBtn'), badge = $('#showBadge');
+  const frame = $('#showBtn');
   const layers = [$('#slideA'), $('#slideB')];
   if (!frame || !layers[0] || !layers[1]) return;
   const pool = [];
@@ -890,7 +829,6 @@ lb.addEventListener('touchend', (e) => {
       requestAnimationFrame(() => { back.classList.add('on'); cur.classList.remove('on'); });
       front = 1 - front;
       current = pos;
-      badge.textContent = it.label;
       schedule();
     }, () => schedule(300));
   }
