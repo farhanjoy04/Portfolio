@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
 <title>Farhan Ibtesham Joy | Operations, Data and Automation</title>
 <meta name="description" content="Portfolio of Farhan Ibtesham Joy. Project Executive at 10 Minute School and CSE graduate, building automation, dashboards and reporting systems for business operations.">
 <meta name="theme-color" content="#050505">
@@ -339,6 +340,78 @@ footer{padding:36px 0 48px;color:var(--dim);font-size:14px}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
   .marquee-track{animation:none}
+}
+
+/* ===== responsive polish: fluid layout, safe areas, touch devices ===== */
+body{min-height:100vh;min-height:100dvh}
+.wrap{width:min(1180px,calc(100% - 2*max(20px,env(safe-area-inset-left,0px),env(safe-area-inset-right,0px))))}
+.nav{top:calc(14px + env(safe-area-inset-top,0px))}
+.nav-inner{width:min(1180px,calc(100% - 2*max(14px,env(safe-area-inset-left,0px),env(safe-area-inset-right,0px))))}
+.brand{min-width:0}
+.brand>span:last-child{overflow:hidden;text-overflow:ellipsis}
+.lb{padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+.lb img{max-height:76vh;max-height:76dvh}
+@media (min-width:1500px){
+  .wrap,.nav-inner{width:min(1320px,calc(100% - 120px))}
+  .hero{padding-top:176px}
+  .hero-sub{font-size:19.5px;max-width:620px}
+}
+@media (max-width:1100px){
+  .status{display:none}
+}
+@media (max-width:1020px){
+  html{scroll-padding-top:88px}
+  .hero{padding-top:132px}
+  .showcase{width:100%;max-width:640px;margin-inline:auto}
+  .proj-tabs{position:relative;top:auto;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .proj-tabs::-webkit-scrollbar{display:none}
+  .tab{scroll-snap-align:start}
+}
+@media (max-width:720px){
+  h1{font-size:clamp(34px,10.5vw,52px);letter-spacing:-.045em;margin:14px 0 20px}
+  .hero-sub,.sec-head p,.about-copy p,.contact-box>p{font-size:16.5px}
+  .hero-chips{margin:20px 0 24px}
+  .cta .btn{flex:1 1 auto;justify-content:center}
+  .sec-head{margin-bottom:32px}
+  .sec-head h2{font-size:clamp(30px,8.6vw,40px)}
+  .showcase{padding:12px;border-radius:22px}
+  .show-head{margin:0 4px 10px}
+  .show-frame{aspect-ratio:4/3;border-radius:16px}
+  .flow{padding:16px;border-radius:22px}
+  .flow.standalone{margin-top:32px}
+  .node{padding:10px 12px}
+  .cap,.list-card,.skill-card{padding:22px}
+  .proj-panel{padding:12px;border-radius:22px}
+  .proj-info{padding:18px 4px 4px}
+  .masonry{columns:2;column-gap:10px}
+  .tile{margin-bottom:10px;border-radius:14px;min-height:110px}
+  .clip{height:340px}
+  .contact-box{border-radius:24px}
+  .filters{flex-wrap:nowrap;overflow-x:auto;margin-inline:-16px;padding:0 16px 6px;scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .filter{flex:none;white-space:nowrap}
+  .lb{padding-top:60px;padding-bottom:92px}
+  .lb img{max-width:100%;max-height:calc(100vh - 210px);max-height:calc(100dvh - 210px)}
+  .lb-cap{font-size:13px}
+  .lb-count{top:max(22px,env(safe-area-inset-top,0px))}
+}
+@media (max-width:400px){
+  .stats{gap:10px}
+  .stat{padding:16px}
+  .stat b{font-size:30px}
+  .stat span{font-size:13px}
+  .exp-title h3{font-size:19px}
+}
+@media (max-height:500px) and (orientation:landscape){
+  .hero{padding-top:104px}
+  .lb{padding-top:48px;padding-bottom:64px}
+  .lb img{max-height:calc(100vh - 120px);max-height:calc(100dvh - 120px)}
+  .lb-prev,.lb-next{top:50%;bottom:auto;margin-top:-24px}
+}
+@media (hover:none){
+  .zoom{opacity:1;transform:none}
+  .tab:hover,.btn-primary:hover,.btn-ghost:hover,.cc:hover,.clip:hover{transform:none}
+  .copy{width:44px;height:44px}
 }
 </style>
 </head>
@@ -801,24 +874,29 @@ lb.addEventListener('touchend', (e) => {
     const j = Math.floor(Math.random() * (i + 1));
     const t = pool[i]; pool[i] = pool[j]; pool[j] = t;
   }
-  let front = 0, pos = -1, current = 0, timer = null, hovering = false;
+  let front = 0, pos = -1, current = 0, timer = null, paused = false, visible = true;
+  const canHover = matchMedia('(hover: hover)').matches;
+  const small = matchMedia('(max-width: 720px)').matches;
+  const W = small ? 800 : 1000;
   function probe(it, ok, fail) {
     const a = new Image();
-    a.onload = () => ok(opt(it.src, 1000));
+    a.onload = () => ok(opt(it.src, W));
     a.onerror = () => {
       const b = new Image();
       b.onload = () => ok(it.src);
       b.onerror = fail;
       b.src = it.src;
     };
-    a.src = opt(it.src, 1000);
+    a.src = opt(it.src, W);
   }
+  function active() { return !paused && visible && !document.hidden; }
   function schedule(d) {
     clearTimeout(timer);
-    if (hovering) return;
+    if (!active()) return;
     timer = setTimeout(next, d == null ? 3600 : d);
   }
   function next() {
+    if (!active()) return;
     pos = (pos + 1) % pool.length;
     const it = pool[pos];
     probe(it, (url) => {
@@ -832,8 +910,17 @@ lb.addEventListener('touchend', (e) => {
       schedule();
     }, () => schedule(300));
   }
-  frame.addEventListener('mouseenter', () => { hovering = true; clearTimeout(timer); });
-  frame.addEventListener('mouseleave', () => { hovering = false; schedule(1200); });
+  if (canHover) {
+    frame.addEventListener('mouseenter', () => { paused = true; clearTimeout(timer); });
+    frame.addEventListener('mouseleave', () => { paused = false; schedule(1000); });
+  }
+  document.addEventListener('visibilitychange', () => { if (document.hidden) clearTimeout(timer); else schedule(800); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((es) => {
+      visible = es[0].isIntersecting;
+      if (visible) schedule(400); else clearTimeout(timer);
+    }, { threshold: 0.1 }).observe(frame);
+  }
   frame.addEventListener('click', () => {
     openLB(pool.map((p) => ({ src: p.src, cap: p.label })), current);
   });
@@ -856,6 +943,8 @@ tabs.innerHTML = PROJECTS.map((p, i) =>
 function renderProject(i) {
   const p = PROJECTS[i]; curP = i; curShot = 0;
   $$('.tab', tabs).forEach((t, k) => t.setAttribute('aria-selected', k === i));
+  const at = $$('.tab', tabs)[i];
+  if (at && tabs.scrollWidth > tabs.clientWidth + 4) tabs.scrollTo({ left: Math.max(0, at.offsetLeft - 12), behavior: 'smooth' });
   const thumbs = p.shots.length > 1
     ? '<div class="thumbs">' + p.shots.map((s, k) => '<button class="thumb' + (k === 0 ? ' on' : '') + '" data-k="' + k + '" aria-label="Screenshot ' + (k + 1) + '"><img src="' + opt(s, 360) + '" data-src="' + s + '" alt="" loading="lazy"></button>').join('') + '</div>'
     : '';
@@ -963,6 +1052,11 @@ menuBtn.addEventListener('click', () => {
   menuBtn.setAttribute('aria-expanded', open);
 });
 links.addEventListener('click', (e) => { if (e.target.closest('a')) { links.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); } });
+
+function closeMenu() { links.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); }
+document.addEventListener('click', (e) => { if (links.classList.contains('open') && !e.target.closest('.nav-inner')) closeMenu(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+addEventListener('resize', () => { if (innerWidth > 1020) closeMenu(); });
 
 /* ---------- card spotlight and cursor glow ---------- */
 document.addEventListener('pointermove', (e) => {
