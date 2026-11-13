@@ -413,6 +413,18 @@ body{min-height:100vh;min-height:100dvh}
   .tab:hover,.btn-primary:hover,.btn-ghost:hover,.cc:hover,.clip:hover{transform:none}
   .copy{width:44px;height:44px}
 }
+
+/* ===== projects: show every project tab on tablet and mobile, no swiping ===== */
+@media (max-width:1020px){
+  .proj-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;overflow:visible;padding-bottom:0;scroll-snap-type:none}
+  .tab{min-width:0;flex:none}
+}
+@media (max-width:720px){
+  .proj-tabs{grid-template-columns:1fr;gap:8px}
+  .tab{padding:12px 14px;gap:12px}
+  .tab .ico{width:36px;height:36px;border-radius:10px}
+  .tab b{font-size:14px}
+}
 </style>
 </head>
 <body>
@@ -957,7 +969,11 @@ function renderProject(i) {
     '<ul class="ticks">' + p.points.map((x) => '<li>' + ic('check') + '<span>' + esc(x) + '</span></li>').join('') + '</ul>' +
     '<div class="tags">' + p.tags.map((t) => '<span class="tag">' + esc(t) + '</span>').join('') + '</div></div></div>';
 }
-tabs.addEventListener('click', (e) => { const b = e.target.closest('.tab'); if (b) renderProject(+b.dataset.p); });
+tabs.addEventListener('click', (e) => {
+  const b = e.target.closest('.tab'); if (!b) return;
+  renderProject(+b.dataset.p);
+  if (matchMedia('(max-width: 1020px)').matches) panel.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+});
 tabs.addEventListener('keydown', (e) => {
   if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
   e.preventDefault();
