@@ -50,8 +50,14 @@ ul{list-style:none}
 /* nav */
 .nav{position:fixed;top:14px;left:0;right:0;z-index:50;pointer-events:none}
 .nav-inner{pointer-events:auto;position:relative;width:min(1180px,100% - 28px);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 12px 10px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(12,12,13,.74);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 10px 40px rgba(0,0,0,.45)}
-.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:-.02em;font-size:18px}
-.logo{width:40px;height:40px;border-radius:12px;background:var(--grad);display:grid;place-items:center;font-size:14px;font-weight:800;box-shadow:0 8px 24px rgba(255,42,77,.35)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:-.02em;font-size:18px;white-space:nowrap}
+/* brand mark: glowing ring with a sparkle */
+.logo{position:relative;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;flex:none;box-shadow:0 0 26px rgba(255,42,77,.4)}
+.logo::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,#ff2d3d,#d6004f,#2a0a14 55%,#ff2d3d);animation:spin 5s linear infinite}
+.logo::after{content:"";position:absolute;inset:2px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#1d1015,#0a0a0c 70%)}
+.logo svg{position:relative;z-index:1;width:20px;height:20px;animation:twinkle 3s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.15) rotate(12deg)}}
 .links{display:flex;gap:4px}
 .links a{padding:8px 14px;border-radius:999px;color:var(--muted);font-weight:500;font-size:14px;transition:.25s}
 .links a:hover{color:var(--text);background:rgba(255,255,255,.05)}
@@ -102,8 +108,23 @@ h1 .typed-line{display:block;min-height:1.05em}
 .hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 30px}
 .cta{display:flex;flex-wrap:wrap;gap:14px}
 
+/* hero image showcase */
+.showcase{border:1px dashed rgba(255,255,255,.17);border-radius:28px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));animation:fadeUp 1s .3s var(--ease) backwards}
+.show-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:2px 4px 14px}
+.show-head h3{font-size:15px;font-weight:700}
+.show-head .live{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12.5px;font-weight:500}
+.show-frame{position:relative;display:block;width:100%;aspect-ratio:1/1;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#09090a;cursor:zoom-in;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity 1s ease,transform 5s linear}
+.slide.on{opacity:1;transform:scale(1.1)}
+.slide.contain{object-fit:contain;transform:none;background:#09090a}
+.slide.contain.on{transform:none}
+.show-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(5,5,5,.85));pointer-events:none;z-index:1}
+.show-badge{position:absolute;left:14px;bottom:14px;right:14px;z-index:2;display:inline-flex;align-items:center;gap:8px;width:max-content;max-width:calc(100% - 28px);padding:8px 14px;border-radius:999px;background:rgba(5,5,5,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid var(--line-2);font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.show-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red);flex:none}
+
 /* workflow card */
 .flow{border:1px dashed rgba(255,255,255,.17);border-radius:28px;padding:24px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));animation:fadeUp 1s .3s var(--ease) backwards}
+.flow.standalone{max-width:720px;margin:44px auto 0}
 .flow-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
 .flow-head h3{font-size:15px;font-weight:700}
 .flow-head .live{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12.5px;font-weight:500}
@@ -304,6 +325,8 @@ footer{padding:36px 0 48px;color:var(--dim);font-size:14px}
   .section{padding:72px 0}
   .hero{padding:124px 0 40px}
   .status{display:none}
+  .brand{font-size:15px;gap:10px}
+  .logo{width:38px;height:38px}
   .cap-grid,.skill-grid,.contact-grid{grid-template-columns:1fr}
   .stat{padding:20px}
   .exp{padding:22px}
@@ -311,6 +334,9 @@ footer{padding:36px 0 48px;color:var(--dim);font-size:14px}
   .t-item::before{left:-30px}
   .lb-prev,.lb-next{top:auto;bottom:18px;margin-top:0}
   .arrows{margin-bottom:24px}
+}
+@media (max-width:380px){
+  .brand{font-size:13.5px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
@@ -363,7 +389,12 @@ footer{padding:36px 0 48px;color:var(--dim);font-size:14px}
 
 <header class="nav">
   <div class="nav-inner">
-    <a class="brand" href="#top" aria-label="Farhan Ibtesham Joy, back to top"><span class="logo">FJ</span><span>Farhan Joy</span></a>
+    <a class="brand" href="#top" aria-label="Farhan Ibtesham Joy, back to top">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><defs><linearGradient id="spk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5a73"/><stop offset="1" stop-color="#d6004f"/></linearGradient></defs><path fill="url(#spk)" d="M12 2l2.4 7.1L22 12l-7.6 2.9L12 22l-2.4-7.1L2 12l7.6-2.9z"/></svg>
+      </span>
+      <span>Farhan Ibtesham Joy</span>
+    </a>
     <nav class="links" id="links" aria-label="Sections">
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
@@ -396,15 +427,13 @@ footer{padding:36px 0 48px;color:var(--dim);font-size:14px}
       </div>
     </div>
 
-    <aside class="flow" aria-label="How my automation workflows run">
-      <div class="flow-head"><h3>How my automation flows</h3><span class="live"><span class="dot"></span>Running daily</span></div>
-      <ol class="flow-list" style="list-style:none">
-        <li class="node" style="--i:0"><span class="ico"><svg class="i"><use href="#i-table"/></svg></span><span><b>Google Sheets</b><small>Source data kept by content teams</small></span></li>
-        <li class="node" style="--i:1"><span class="ico"><svg class="i"><use href="#i-code"/></svg></span><span><b>Apps Script and Python</b><small>Cleaning, formatting and mapping</small></span></li>
-        <li class="node" style="--i:2"><span class="ico"><svg class="i"><use href="#i-layers"/></svg></span><span><b>Platform APIs</b><small>Live checks against the real platform</small></span></li>
-        <li class="node" style="--i:3"><span class="ico"><svg class="i"><use href="#i-monitor"/></svg></span><span><b>Dashboard</b><small>Coverage, gaps and review status</small></span></li>
-        <li class="node" style="--i:4"><span class="ico"><svg class="i"><use href="#i-chat"/></svg></span><span><b>Google Chat report</b><small>Daily summary with a PDF snapshot</small></span></li>
-      </ol>
+    <aside class="showcase" aria-label="Photos from my activities and project screenshots">
+      <div class="show-head"><h3>Moments and work</h3><span class="live"><span class="dot"></span>Random mix</span></div>
+      <button class="show-frame" id="showBtn" type="button" aria-label="View this image full size">
+        <img class="slide on" id="slideA" alt="">
+        <img class="slide" id="slideB" alt="">
+        <span class="show-badge" id="showBadge">Loading</span>
+      </button>
     </aside>
   </div>
 </section>
@@ -418,6 +447,17 @@ footer{padding:36px 0 48px;color:var(--dim);font-size:14px}
       <div class="card stat reveal" style="--d:.21s"><b data-count="97" data-suf="%">97%</b><span>accuracy on bone fracture detection</span></div>
     </div>
     <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
+
+    <aside class="flow standalone" aria-label="How my automation workflows run">
+      <div class="flow-head"><h3>How my automation flows</h3><span class="live"><span class="dot"></span>Running daily</span></div>
+      <ol class="flow-list" style="list-style:none">
+        <li class="node" style="--i:0"><span class="ico"><svg class="i"><use href="#i-table"/></svg></span><span><b>Google Sheets</b><small>Source data kept by content teams</small></span></li>
+        <li class="node" style="--i:1"><span class="ico"><svg class="i"><use href="#i-code"/></svg></span><span><b>Apps Script and Python</b><small>Cleaning, formatting and mapping</small></span></li>
+        <li class="node" style="--i:2"><span class="ico"><svg class="i"><use href="#i-layers"/></svg></span><span><b>Platform APIs</b><small>Live checks against the real platform</small></span></li>
+        <li class="node" style="--i:3"><span class="ico"><svg class="i"><use href="#i-monitor"/></svg></span><span><b>Dashboard</b><small>Coverage, gaps and review status</small></span></li>
+        <li class="node" style="--i:4"><span class="ico"><svg class="i"><use href="#i-chat"/></svg></span><span><b>Google Chat report</b><small>Daily summary with a PDF snapshot</small></span></li>
+      </ol>
+    </aside>
   </div>
 </section>
 
@@ -507,6 +547,35 @@ footer{padding:36px 0 48px;color:var(--dim);font-size:14px}
   </div>
 </section>
 
+<section id="activities" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Extracurricular activities</span>
+      <h2>Leading, hosting and organising</h2>
+      <p>Photos from programmes, events and clubs I have been part of. Tap any photo to view it larger.</p>
+    </div>
+    <div class="masonry" id="gallery"></div>
+    <div class="more"><button class="btn btn-ghost" id="moreBtn" type="button"><svg class="i"><use href="#i-image"/></svg><span>Show all photos</span></button></div>
+  </div>
+</section>
+
+<section id="press" class="section">
+  <div class="wrap">
+    <div class="clip-head">
+      <div class="sec-head reveal">
+        <span class="eyebrow">In print</span>
+        <h2>Published in newspapers</h2>
+        <p>Selected articles from my time as an article writer for Daily Ajker Patrika and Daily Kaler Kantho. Tap a clipping to read it in full.</p>
+      </div>
+      <div class="arrows">
+        <button class="arrow" id="clipPrev" aria-label="Previous clippings"><svg class="i"><use href="#i-left"/></svg></button>
+        <button class="arrow" id="clipNext" aria-label="Next clippings"><svg class="i"><use href="#i-right"/></svg></button>
+      </div>
+    </div>
+    <div class="clips" id="clips" tabindex="0" aria-label="Newspaper clippings"></div>
+  </div>
+</section>
+
 <section id="research" class="section">
   <div class="wrap">
     <div class="sec-head reveal">
@@ -588,35 +657,6 @@ footer{padding:36px 0 48px;color:var(--dim);font-size:14px}
       <article class="card list-card reveal"><h3><svg class="i"><use href="#i-users"/></svg>Leadership and involvement</h3><div id="roles"></div></article>
       <article class="card list-card reveal" style="--d:.08s"><h3><svg class="i"><use href="#i-award"/></svg>Awards and honours</h3><div id="honours"></div></article>
     </div>
-  </div>
-</section>
-
-<section id="activities" class="section">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">Extracurricular activities</span>
-      <h2>Leading, hosting and organising</h2>
-      <p>Photos from programmes, events and clubs I have been part of. Tap any photo to view it larger.</p>
-    </div>
-    <div class="masonry" id="gallery"></div>
-    <div class="more"><button class="btn btn-ghost" id="moreBtn" type="button"><svg class="i"><use href="#i-image"/></svg><span>Show all photos</span></button></div>
-  </div>
-</section>
-
-<section id="press" class="section">
-  <div class="wrap">
-    <div class="clip-head">
-      <div class="sec-head reveal">
-        <span class="eyebrow">In print</span>
-        <h2>Published in newspapers</h2>
-        <p>Selected articles from my time as an article writer for Daily Ajker Patrika and Daily Kaler Kantho. Tap a clipping to read it in full.</p>
-      </div>
-      <div class="arrows">
-        <button class="arrow" id="clipPrev" aria-label="Previous clippings"><svg class="i"><use href="#i-left"/></svg></button>
-        <button class="arrow" id="clipNext" aria-label="Next clippings"><svg class="i"><use href="#i-right"/></svg></button>
-      </div>
-    </div>
-    <div class="clips" id="clips" tabindex="0" aria-label="Newspaper clippings"></div>
   </div>
 </section>
 
@@ -809,6 +849,58 @@ lb.addEventListener('touchend', (e) => {
   const dx = e.changedTouches[0].clientX - tx;
   if (Math.abs(dx) > 50 && items.length > 1) stepLB(dx < 0 ? 1 : -1);
 }, { passive: true });
+
+/* ---------- hero showcase: random mix of activity photos and project screenshots ---------- */
+(function () {
+  const frame = $('#showBtn'), badge = $('#showBadge');
+  const layers = [$('#slideA'), $('#slideB')];
+  if (!frame || !layers[0] || !layers[1]) return;
+  const pool = [];
+  GALLERY.forEach((g) => pool.push({ src: g.src, label: 'Extracurricular activity', type: 'photo' }));
+  PROJECTS.forEach((p) => p.shots.forEach((s) => pool.push({ src: s, label: 'Project: ' + p.name, type: 'shot' })));
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+  }
+  let front = 0, pos = -1, current = 0, timer = null, hovering = false;
+  function probe(it, ok, fail) {
+    const a = new Image();
+    a.onload = () => ok(opt(it.src, 1000));
+    a.onerror = () => {
+      const b = new Image();
+      b.onload = () => ok(it.src);
+      b.onerror = fail;
+      b.src = it.src;
+    };
+    a.src = opt(it.src, 1000);
+  }
+  function schedule(d) {
+    clearTimeout(timer);
+    if (hovering) return;
+    timer = setTimeout(next, d == null ? 3600 : d);
+  }
+  function next() {
+    pos = (pos + 1) % pool.length;
+    const it = pool[pos];
+    probe(it, (url) => {
+      const cur = layers[front], back = layers[1 - front];
+      back.className = 'slide' + (it.type === 'shot' ? ' contain' : '');
+      back.src = url;
+      back.alt = it.label;
+      requestAnimationFrame(() => { back.classList.add('on'); cur.classList.remove('on'); });
+      front = 1 - front;
+      current = pos;
+      badge.textContent = it.label;
+      schedule();
+    }, () => schedule(300));
+  }
+  frame.addEventListener('mouseenter', () => { hovering = true; clearTimeout(timer); });
+  frame.addEventListener('mouseleave', () => { hovering = false; schedule(1200); });
+  frame.addEventListener('click', () => {
+    openLB(pool.map((p) => ({ src: p.src, cap: p.label })), current);
+  });
+  next();
+})();
 
 /* ---------- marquee ---------- */
 const mq = $('#marquee');
@@ -1015,6 +1107,3 @@ if (typed && !reduce) {
 </script>
 </body>
 </html>
-
-
-
