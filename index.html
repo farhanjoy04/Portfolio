@@ -641,6 +641,18 @@ body{min-height:100vh;min-height:100dvh}
   </div>
 </section>
 
+<section id="certificates" class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Certificates</span>
+      <h2>Courses, training and recognition</h2>
+      <p>Certificates I have earned along the way. Tap any certificate to view it larger.</p>
+    </div>
+    <div class="masonry" id="certGallery"></div>
+    <div class="more"><button class="btn btn-ghost" id="certMoreBtn" type="button"><svg class="i"><use href="#i-award"/></svg><span>Show all certificates</span></button></div>
+  </div>
+</section>
+
 <section id="press" class="section">
   <div class="wrap">
     <div class="clip-head">
@@ -745,6 +757,13 @@ const CLIPS = [
   'v1794593387/Screenshot_2025-07-27-15-07-31-002-edit_com.google.android.apps.docs.jpg',
   'v1794593387/Screenshot_2025-07-27-15-08-06-031-edit_com.google.android.apps.docs.jpg'
 ].map((p) => ({ src: CL + p, cap: 'Newspaper article' }));
+
+const CERTS = [
+  'v1794634782/1769340036727-01.jpg','v1794634791/1769340070931-01.jpg','v1794634781/1790688828630.jpg',
+  'v1794634781/1737109090357-01.jpg','v1794634781/1737109042298-01.jpg','v1794634782/1737109141856-01.jpg',
+  'v1794634780/IMG_20241114_234209.jpg','v1794634780/Screenshot_2025-07-25-20-06-31-833-edit_com.google.android.apps.docs.jpg',
+  'v1794634782/IMG_20241114_231534.jpg'
+].map((p, i) => ({ src: CL + p, cap: 'Certificate ' + (i + 1) }));
 
 const PROJECTS = [
   { icon: 'search', name: 'Content Completeness Audit and Automation System', org: '10 Minute School', kind: 'Audit and automation',
@@ -1037,6 +1056,21 @@ moreBtn.addEventListener('click', () => {
   $$('.tile', gal).forEach((t, i) => { if (i >= LIMIT) t.hidden = !expanded; });
   $('span', moreBtn).textContent = expanded ? 'Show fewer photos' : 'Show all photos';
   if (!expanded) $('#activities').scrollIntoView({ block: 'start' });
+});
+
+/* ---------- certificates ---------- */
+const certGal = $('#certGallery'), CLIMIT = 6;
+certGal.innerHTML = CERTS.map((g, i) =>
+  '<button class="tile"' + (i >= CLIMIT ? ' hidden' : '') + ' data-i="' + i + '" aria-label="Open certificate ' + (i + 1) + '"><img src="' + opt(g.src, 800) + '" data-src="' + g.src + '" alt="' + esc(g.cap) + '" loading="lazy" decoding="async"></button>').join('');
+certGal.addEventListener('click', (e) => { const t = e.target.closest('.tile'); if (t) openLB(CERTS, +t.dataset.i); });
+const certMore = $('#certMoreBtn');
+if (CERTS.length <= CLIMIT) certMore.parentNode.style.display = 'none';
+let certExpanded = false;
+certMore.addEventListener('click', () => {
+  certExpanded = !certExpanded;
+  $$('.tile', certGal).forEach((t, i) => { if (i >= CLIMIT) t.hidden = !certExpanded; });
+  $('span', certMore).textContent = certExpanded ? 'Show fewer certificates' : 'Show all certificates';
+  if (!certExpanded) $('#certificates').scrollIntoView({ block: 'start' });
 });
 
 /* ---------- newspaper clippings ---------- */
